@@ -1,8 +1,27 @@
 import { MongoClient, ObjectId } from "mongodb";
 import Head from "next/head";
+import { useRouter } from "next/router";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
+  const router = useRouter();
+  const _id = router.query.meetupId;
+  console.log(_id);
+  const deleteMeetupHandler = async () => {
+    const resp = await fetch("/api/deleteMeetup", {
+      method: "DELETE",
 
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    const data = await resp.json();
+    console.log(data);
+    console.log(id);
+    console.log(typeof _id);
+    // router.back();
+  };
   return (
     <>
       <Head>
@@ -14,6 +33,9 @@ const meetup = (props) => {
         <div className="title">{title}</div>
         <div className="title">{address}</div>
         <div className="title">{description}</div>
+        <button type="text" onClick={deleteMeetupHandler}>
+          Delete Meetup
+        </button>
       </div>
     </>
   );
