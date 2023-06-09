@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer components {
+  .input-field {
+    @apply border w-full px-4 py-2;
+  }
+  .add-meetup {
+    @apply border text-white bg-sky-500 rounded-xl shadow-xl  px-8 py-3 my-10 text-center duration-200 hover:bg-opacity-50 hover:text-black/100 w-[12rem];
+  }
+  .title {
+    @apply text-center font-bold capitalize text-3xl;
+  }
+  .title {
+    @apply text-3xl ;
+  }
+}
