@@ -20,7 +20,6 @@ const meetup = (props) => {
     console.log(data);
     console.log(id);
     console.log(typeof _id);
-    // router.back();
   };
   return (
     <>

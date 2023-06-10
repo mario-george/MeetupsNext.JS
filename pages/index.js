@@ -104,6 +104,7 @@ export async function getStaticProps() {
           image: m.image,
           address: m.address,
           id: m._id.toString(),
+          
         };
       }),
     },
