@@ -323,15 +323,15 @@ const meetup = (props) => {
             </div>
           )}
         </div>
-        <div className="flex space-x-5 mt-12">
+        <div className="flex space-x-5 mt-6 justify-center">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl transition-all duration-200"
+            className="shadow-xl rounded-2xl transition-all duration-200 bg-blue-500 hover:bg-blue-700 w-64 py-2 border-2 border-black text-white border-blue-500 font-semibold mt-2 mb-6 text-2xl"
             onClick={editMeetupHandler}
           >
             Edit Meetup
           </button>
           <button
-            className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-xl transition-all duration-200"
+            className="shadow-xl text-2xl rounded-2xl transiton-all duration-200 bg-red-500 hover:bg-red-700 w-64 py-2 border-2 border-black text-white border-red-500 font-semibold mt-2 mb-6"
             onClick={deleteMeetupHandler}
           >
             Delete Meetup

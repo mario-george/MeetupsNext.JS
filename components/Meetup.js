@@ -18,7 +18,8 @@ const Meetup = (props) => {
     <>
       <div
         key={id}
-        className="flex  my-10 justify-start items-center border-2 p-8 shadow-xl rounded-2xl border-blue-500 mx-auto w-1/2 p-2"
+        className="flex  my-10 justify-start items-center border-2 p-8 shadow-xl rounded-2xl border-blue-500 mx-auto 
+        w-full xl:w-[55%] md:w-[80%] p-2"
       >
         <div className="flex w-full gap-3 flex-col">
           <div className="h-[30rem] w-full ">
