@@ -1,4 +1,5 @@
-import { MongoClient, ObjectId } from "mongodb";
+import { MongoClient } from "mongodb";
+import { ObjectId } from "bson";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -34,10 +35,10 @@ const meetup = (props) => {
     const resp = await fetch("/api/editMeetup", {
       body: JSON.stringify({
         _id: id,
-        title: title,
-        description: description,
-        image: image,
-        address: address,
+        title: meetupData.title,
+        description:  meetupData.description,
+        image:  meetupData.image,
+        address:  meetupData.address,
       }),
       headers: { "Content-Type": "application/json" },
       method: "PATCH",
@@ -379,7 +380,7 @@ export async function getStaticProps(context) {
   const db = client.db();
   const meetupCollections = db.collection("meetups");
   const id = context.params.meetupId;
-  const meetup = await meetupCollections.findOne({ _id: ObjectId(id) });
+  const meetup = await meetupCollections.findOne({ _id: new ObjectId(id) });
 
   return {
     props: {
