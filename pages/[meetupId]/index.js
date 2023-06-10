@@ -1,9 +1,18 @@
 import { MongoClient, ObjectId } from "mongodb";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState } from "react";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
   const router = useRouter();
+
+  const [meetupData, setMeetupData] = useState({
+    title: title,
+    image: image,
+    id: id,
+    description: description,
+    address: address,
+  });
   const _id = router.query.meetupId;
   console.log(_id);
   const deleteMeetupHandler = async () => {
@@ -21,20 +30,307 @@ const meetup = (props) => {
     console.log(id);
     console.log(typeof _id);
   };
+  const editMeetupHandler = async () => {
+    const resp = await fetch("/api/editMeetup", {
+      body: JSON.stringify({
+        _id: id,
+        title: title,
+        description: description,
+        image: image,
+        address: address,
+      }),
+      headers: { "Content-Type": "application/json" },
+      method: "PATCH",
+    });
+    const data = await resp.json();
+    console.log(data);
+  };
+
+  const [editState, setEditState] = useState({
+    editAddress: false,
+    editImage: false,
+    editTitle: false,
+    editDescription: false,
+    editTitleConfirm: false,
+    editDescriptionConfirm: false,
+    editImageConfirm: false,
+  });
+
+  const editAddressConfirmHandler = (boolean) => {
+    if (boolean) {
+      setMeetupData((p) => {
+        return { ...p, address: cached.address };
+      });
+      setEditState((p) => {
+        return { ...p, editAddress: false };
+      });
+    }
+  };
+
+  const editDescriptionConfirmHandler = (boolean) => {
+    if (boolean) {
+      setMeetupData((p) => {
+        return { ...p, description: cached.description };
+      });
+      setEditState((p) => {
+        return { ...p, editDescription: false };
+      });
+    }
+  };
+  const editTitleConfirmHandler = (boolean) => {
+    if (boolean) {
+      setMeetupData((p) => {
+        return { ...p, title: cached.title };
+      });
+      setEditState((p) => {
+        return { ...p, editTitle: false };
+      });
+    }
+  };
+  const editImageConfirmHandler = (boolean) => {
+    if (boolean) {
+      setMeetupData((p) => {
+        return { ...p, image: cached.image };
+      });
+      setEditState((p) => {
+        return { ...p, editImage: false };
+      });
+    }
+  };
+  const [cached, setCached] = useState({
+    title: title,
+    image: image,
+    id: id,
+    description: description,
+    address: address,
+  });
+  const addressChangeHandler = (event) => {
+    setCached((p) => {
+      return { ...p, address: event.target.value };
+    });
+  };
+  const descriptionChangeHandler = (event) => {
+    setCached((p) => {
+      return { ...p, description: event.target.value };
+    });
+  };
+  const imageChangeHandler = (event) => {
+    setCached((p) => {
+      return { ...p, image: event.target.value };
+    });
+  };
+  const titleChangeHandler = (event) => {
+    setCached((p) => {
+      return { ...p, title: event.target.value };
+    });
+  };
+
   return (
     <>
       <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
+        <title>{meetupData.title}</title>
+        <meta name="description" content={meetupData.description} />
       </Head>
-      <div className="mx-auto flex flex-col w-1/2 border justify-left ">
-        <img src={image} className="w-full h-full" />{" "}
-        <div className="title">{title}</div>
-        <div className="title">{address}</div>
-        <div className="title">{description}</div>
-        <button type="text" onClick={deleteMeetupHandler}>
-          Delete Meetup
-        </button>
+      <div className="mx-auto flex flex-col w-1/2 border p-4">
+        <img src={meetupData.image} className="w-full h-full object-cover" />
+        <div className="text-base mb-2 flex space-x-4 items-center">
+          <div className="text-xl font-semibold">Title:</div>
+          {editState.editTitle ? (
+            <>
+              <input
+                type="text"
+                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
+                defaultValue={meetupData.title}
+                onChange={titleChangeHandler}
+              />
+            </>
+          ) : (
+            <div className="px-6 py-2">{meetupData.title}</div>
+          )}
+          {editState.editTitle ? (
+            <div className="flex space-x-5">
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() =>
+                  setEditState((prevState) => {
+                    return { ...prevState, editTitle: false };
+                  })
+                }
+              >
+                Cancel
+              </span>
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() => editTitleConfirmHandler(true)}
+              >
+                Confirm
+              </span>
+            </div>
+          ) : (
+            <div
+              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              onClick={() =>
+                setEditState((prevState) => {
+                  return { ...prevState, editTitle: true };
+                })
+              }
+            >
+              Edit
+            </div>
+          )}
+        </div>{" "}
+        <div className="text-base mb-2 flex space-x-4 items-center">
+          <div className="text-xl font-semibold">Image:</div>
+          {editState.editImage ? (
+            <>
+              <input
+                type="text"
+                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
+                defaultValue={meetupData.image}
+                onChange={imageChangeHandler}
+              />
+            </>
+          ) : (
+            <input className="px-6 py-2  " disabled defaultValue={meetupData.image}/>
+          )}
+          {editState.editImage ? (
+            <div className="flex space-x-5">
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() =>
+                  setEditState((prevState) => {
+                    return { ...prevState, editImage: false };
+                  })
+                }
+              >
+                Cancel
+              </span>
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() => editImageConfirmHandler(true)}
+              >
+                Confirm
+              </span>
+            </div>
+          ) : (
+            <div
+              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              onClick={() =>
+                setEditState((prevState) => {
+                  return { ...prevState, editImage: true };
+                })
+              }
+            >
+              Edit
+            </div>
+          )}
+        </div>{" "}
+        <div className="text-base mb-2 flex space-x-4 items-center">
+          <div className="text-xl font-semibold">Description:</div>
+          {editState.editDescription ? (
+            <>
+              <input
+                type="text"
+                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
+                defaultValue={meetupData.description}
+                onChange={descriptionChangeHandler}
+              />
+            </>
+          ) : (
+            <div className="px-6 py-2">{meetupData.description}</div>
+          )}
+          {editState.editDescription ? (
+            <div className="flex space-x-5">
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() =>
+                  setEditState((prevState) => {
+                    return { ...prevState, editDescription: false };
+                  })
+                }
+              >
+                Cancel
+              </span>
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() => editDescriptionConfirmHandler(true)}
+              >
+                Confirm
+              </span>
+            </div>
+          ) : (
+            <div
+              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              onClick={() =>
+                setEditState((prevState) => {
+                  return { ...prevState, editDescription: true };
+                })
+              }
+            >
+              Edit
+            </div>
+          )}
+        </div>{" "}
+        <div className="text-base mb-2 flex space-x-4 items-center">
+          <div className="text-xl font-semibold">Address:</div>
+          {editState.editAddress ? (
+            <>
+              <input
+                type="text"
+                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
+                defaultValue={meetupData.address}
+                onChange={addressChangeHandler}
+              />
+            </>
+          ) : (
+            <div className="px-6 py-2">{meetupData.address}</div>
+          )}
+          {editState.editAddress ? (
+            <div className="flex space-x-5">
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() =>
+                  setEditState((prevState) => {
+                    return { ...prevState, editAddress: false };
+                  })
+                }
+              >
+                Cancel
+              </span>
+              <span
+                className="text-blue-500 cursor-pointer"
+                onClick={() => editAddressConfirmHandler(true)}
+              >
+                Confirm
+              </span>
+            </div>
+          ) : (
+            <div
+              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              onClick={() =>
+                setEditState((prevState) => {
+                  return { ...prevState, editAddress: true };
+                })
+              }
+            >
+              Edit
+            </div>
+          )}
+        </div>
+        <div className="flex space-x-5 mt-12">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-xl transition-all duration-200"
+            onClick={editMeetupHandler}
+          >
+            Edit Meetup
+          </button>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-xl transition-all duration-200"
+            onClick={deleteMeetupHandler}
+          >
+            Delete Meetup
+          </button>
+        </div>
       </div>
     </>
   );
