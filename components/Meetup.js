@@ -22,7 +22,7 @@ const Meetup = (props) => {
       >
         <div className="flex w-full gap-3 flex-col font-bold">
           <div className="h-[30rem] w-full ">
-            <img src={image} className="w-full h-full  " alt="image" />
+            <img src={image} className="w-full h-full rounded-xl " alt="image" />
           </div>
           <div className="title">{title}</div>
           <div className="description">{description}</div>

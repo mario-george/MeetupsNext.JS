@@ -3,6 +3,7 @@ import { ObjectId } from "bson";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Textarea from "../../components/Textarea";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
   const router = useRouter();
@@ -36,9 +37,9 @@ const meetup = (props) => {
       body: JSON.stringify({
         _id: id,
         title: meetupData.title,
-        description:  meetupData.description,
-        image:  meetupData.image,
-        address:  meetupData.address,
+        description: meetupData.description,
+        image: meetupData.image,
+        address: meetupData.address,
       }),
       headers: { "Content-Type": "application/json" },
       method: "PATCH",
@@ -105,24 +106,24 @@ const meetup = (props) => {
     description: description,
     address: address,
   });
-  const addressChangeHandler = (event) => {
+  const addressChangeHandler = (value) => {
     setCached((p) => {
-      return { ...p, address: event.target.value };
+      return { ...p, address:value };
     });
   };
-  const descriptionChangeHandler = (event) => {
+  const descriptionChangeHandler = (value) => {
     setCached((p) => {
-      return { ...p, description: event.target.value };
+      return { ...p, description: value};
     });
   };
-  const imageChangeHandler = (event) => {
+  const imageChangeHandler = (value) => {
     setCached((p) => {
-      return { ...p, image: event.target.value };
+      return { ...p, image: value };
     });
   };
-  const titleChangeHandler = (event) => {
+  const titleChangeHandler = (value) => {
     setCached((p) => {
-      return { ...p, title: event.target.value };
+      return { ...p, title: value };
     });
   };
 
@@ -138,10 +139,9 @@ const meetup = (props) => {
           <div className="text-xl font-semibold">Title:</div>
           {editState.editTitle ? (
             <>
-              <input
-                type="text"
-                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
-                defaultValue={meetupData.title}
+              <Textarea
+                rows="1"
+                value={meetupData.title}
                 onChange={titleChangeHandler}
               />
             </>
@@ -180,19 +180,24 @@ const meetup = (props) => {
             </div>
           )}
         </div>{" "}
+       
         <div className="text-base mb-2 flex space-x-4 items-center">
           <div className="text-xl font-semibold">Image:</div>
           {editState.editImage ? (
             <>
-              <input
-                type="text"
-                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
-                defaultValue={meetupData.image}
+            
+              <Textarea
+                rows="1"
+                value={meetupData.image}
                 onChange={imageChangeHandler}
               />
             </>
           ) : (
-            <input className="px-6 py-2  " disabled defaultValue={meetupData.image}/>
+            <input
+              className="px-6 py-2  "
+              disabled
+              defaultValue={meetupData.image}
+            />
           )}
           {editState.editImage ? (
             <div className="flex space-x-5">
@@ -230,10 +235,10 @@ const meetup = (props) => {
           <div className="text-xl font-semibold">Description:</div>
           {editState.editDescription ? (
             <>
-              <input
-                type="text"
-                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
-                defaultValue={meetupData.description}
+              
+              <Textarea
+                rows="1"
+                value={meetupData.description}
                 onChange={descriptionChangeHandler}
               />
             </>
@@ -276,10 +281,10 @@ const meetup = (props) => {
           <div className="text-xl font-semibold">Address:</div>
           {editState.editAddress ? (
             <>
-              <input
-                type="text"
-                className="bg-sky-100 rounded-xl px-6 py-2 shadow-xl text-black focus:outline-none"
-                defaultValue={meetupData.address}
+             
+              <Textarea
+                rows="1"
+                value={meetupData.address}
                 onChange={addressChangeHandler}
               />
             </>
