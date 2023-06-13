@@ -3,7 +3,6 @@ import { ObjectId } from "bson";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Textarea from "../../components/Textarea";
 import { Input, Textarea as CustomTextArea ,Button} from "@material-tailwind/react";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
