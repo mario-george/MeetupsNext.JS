@@ -8,54 +8,7 @@ import { Input, Textarea as CustomTextArea ,Button} from "@material-tailwind/rea
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
   const router = useRouter();
-  function CustomCard({ title, address, description, image, id }) {
-    return (
-      <Card
-        className=" shadow-lg  mx-auto 
-      w-full xl:w-[55%] md:w-[80%]  border my-6"
-      >
-        <CardHeader floated={false} color="blue-gray">
-          <img src={image} alt="image" />
-          <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
-        </CardHeader>
-        <CardBody>
-          <div className="mb-3 flex items-center justify-between">
-            <Typography variant="h2" color="blue-gray" className="font-medium">
-              {title}
-            </Typography>
-          </div>
-          <Typography
-            variant="h6"
-            color="blue-gray"
-            className="font-medium flex items-center space-x-3 "
-          >
-            <p className="mr-3 font-bold">Address : </p>
-          </Typography>
-          <Typography variant="paragraph" color="gray" className="mt-5">
-            {description}
-          </Typography>
-        </CardBody>
-        <CardFooter className="pt-3 flex flex-col space-y-3" divider>
-          <Link href={id}>
-            <a>
-              <Button size="lg" className="text-lg" type="submit" fullWidth>
-                Submit Edit
-              </Button>
-            </a>
-          </Link>
-          <Button
-            size="lg"
-            color="red"
-            className="text-lg"
-            onClick={deleteMeetupHandler}
-            fullWidth
-          >
-            Delete Meetup
-          </Button>
-        </CardFooter>
-      </Card>
-    );
-  }
+
   const [meetupData, setMeetupData] = useState({
     title: title,
     image: image,
