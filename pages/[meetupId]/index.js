@@ -4,10 +4,58 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Textarea from "../../components/Textarea";
+import { Input, Textarea as CustomTextArea ,Button} from "@material-tailwind/react";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
   const router = useRouter();
-
+  function CustomCard({ title, address, description, image, id }) {
+    return (
+      <Card
+        className=" shadow-lg  mx-auto 
+      w-full xl:w-[55%] md:w-[80%]  border my-6"
+      >
+        <CardHeader floated={false} color="blue-gray">
+          <img src={image} alt="image" />
+          <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+        </CardHeader>
+        <CardBody>
+          <div className="mb-3 flex items-center justify-between">
+            <Typography variant="h2" color="blue-gray" className="font-medium">
+              {title}
+            </Typography>
+          </div>
+          <Typography
+            variant="h6"
+            color="blue-gray"
+            className="font-medium flex items-center space-x-3 "
+          >
+            <p className="mr-3 font-bold">Address : </p>
+          </Typography>
+          <Typography variant="paragraph" color="gray" className="mt-5">
+            {description}
+          </Typography>
+        </CardBody>
+        <CardFooter className="pt-3 flex flex-col space-y-3" divider>
+          <Link href={id}>
+            <a>
+              <Button size="lg" className="text-lg" type="submit" fullWidth>
+                Submit Edit
+              </Button>
+            </a>
+          </Link>
+          <Button
+            size="lg"
+            color="red"
+            className="text-lg"
+            onClick={deleteMeetupHandler}
+            fullWidth
+          >
+            Delete Meetup
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
   const [meetupData, setMeetupData] = useState({
     title: title,
     image: image,
@@ -108,12 +156,12 @@ const meetup = (props) => {
   });
   const addressChangeHandler = (value) => {
     setCached((p) => {
-      return { ...p, address:value };
+      return { ...p, address: value };
     });
   };
   const descriptionChangeHandler = (value) => {
     setCached((p) => {
-      return { ...p, description: value};
+      return { ...p, description: value };
     });
   };
   const imageChangeHandler = (value) => {
@@ -135,21 +183,27 @@ const meetup = (props) => {
       </Head>
       <div className="mx-auto flex flex-col w-1/2 border p-4">
         <img src={meetupData.image} className="w-full h-full object-cover" />
-        <div className="text-base mb-2 flex space-x-4 items-center">
+        <div className="text-base mb-2 flex space-x-4 items-center mt-4">
           <div className="text-xl font-semibold">Title:</div>
           {editState.editTitle ? (
             <>
-              <Textarea
-                rows="1"
-                value={meetupData.title}
+              <Input
+                variant="outline"
+                label="Title"
+                defaultValue={meetupData.title}
                 onChange={titleChangeHandler}
               />
             </>
           ) : (
-            <div className="px-6 py-2">{meetupData.title}</div>
+            <Input
+              variant="outline"
+              label="Title"
+              value={meetupData.title}
+              disabled={!editState.editTitle}
+            />
           )}
           {editState.editTitle ? (
-            <div className="flex space-x-5">
+            <div className="flex space-x-5 !text-sm">
               <span
                 className="text-blue-500 cursor-pointer"
                 onClick={() =>
@@ -169,7 +223,7 @@ const meetup = (props) => {
             </div>
           ) : (
             <div
-              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              className="text-blue-500 cursor-pointer flex justify-end "
               onClick={() =>
                 setEditState((prevState) => {
                   return { ...prevState, editTitle: true };
@@ -180,27 +234,28 @@ const meetup = (props) => {
             </div>
           )}
         </div>{" "}
-       
         <div className="text-base mb-2 flex space-x-4 items-center">
           <div className="text-xl font-semibold">Image:</div>
           {editState.editImage ? (
             <>
-            
-              <Textarea
-                rows="1"
-                value={meetupData.image}
+        
+                <CustomTextArea
+                rows="2"
+                defaultValue={meetupData.image}
                 onChange={imageChangeHandler}
+                label="Image"
               />
             </>
           ) : (
-            <input
-              className="px-6 py-2  "
+            <Input
+              variant="outline"
+              label="Title"
+              value={meetupData.image}
               disabled
-              defaultValue={meetupData.image}
             />
           )}
           {editState.editImage ? (
-            <div className="flex space-x-5">
+            <div className="flex space-x-5 !text-sm">
               <span
                 className="text-blue-500 cursor-pointer"
                 onClick={() =>
@@ -220,7 +275,7 @@ const meetup = (props) => {
             </div>
           ) : (
             <div
-              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              className="text-blue-500 cursor-pointer flex justify-end "
               onClick={() =>
                 setEditState((prevState) => {
                   return { ...prevState, editImage: true };
@@ -232,23 +287,30 @@ const meetup = (props) => {
           )}
         </div>{" "}
         <div className="text-base mb-2 flex space-x-4 items-center">
-          <div className="text-xl font-semibold">Description:</div>
+          <div className="font-bold ">Description:</div>
           {editState.editDescription ? (
             <>
-              
-              <Textarea
-                rows="1"
-                value={meetupData.description}
+             
+                <CustomTextArea
+                defaultValue={meetupData.description}
                 onChange={descriptionChangeHandler}
+                label="Image"
               />
             </>
           ) : (
-            <div className="px-6 py-2">{meetupData.description}</div>
+            <CustomTextArea
+              variant="outline"
+              label="Title"
+              value={meetupData.description}
+              size="lg"
+              className="w-full"
+              disabled
+            />
           )}
           {editState.editDescription ? (
-            <div className="flex space-x-5">
+            <div className="flex space-x-5 !text-sm">
               <span
-                className="text-blue-500 cursor-pointer"
+                className="text-blue-500 cursor-pointer "
                 onClick={() =>
                   setEditState((prevState) => {
                     return { ...prevState, editDescription: false };
@@ -266,7 +328,7 @@ const meetup = (props) => {
             </div>
           ) : (
             <div
-              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              className="text-blue-500 cursor-pointer flex justify-end "
               onClick={() =>
                 setEditState((prevState) => {
                   return { ...prevState, editDescription: true };
@@ -281,18 +343,23 @@ const meetup = (props) => {
           <div className="text-xl font-semibold">Address:</div>
           {editState.editAddress ? (
             <>
-             
-              <Textarea
-                rows="1"
-                value={meetupData.address}
+              <Input
+                variant="outline"
+                label="Address"
+                defaultValue={meetupData.address}
                 onChange={addressChangeHandler}
               />
             </>
           ) : (
-            <div className="px-6 py-2">{meetupData.address}</div>
+            <Input
+              variant="outline"
+              label="Address"
+              value={meetupData.address}
+              disabled
+            />
           )}
           {editState.editAddress ? (
-            <div className="flex space-x-5">
+            <div className="flex space-x-5 !text-sm">
               <span
                 className="text-blue-500 cursor-pointer"
                 onClick={() =>
@@ -312,7 +379,7 @@ const meetup = (props) => {
             </div>
           ) : (
             <div
-              className="text-blue-500 cursor-pointer flex justify-end w-2/5"
+              className="text-blue-500 cursor-pointer flex justify-end "
               onClick={() =>
                 setEditState((prevState) => {
                   return { ...prevState, editAddress: true };
@@ -323,19 +390,20 @@ const meetup = (props) => {
             </div>
           )}
         </div>
-        <div className="flex space-x-5 mt-6 justify-center">
-          <button
-            className="shadow-xl rounded-2xl transition-all duration-200 bg-blue-500 hover:bg-blue-700 w-64 py-2 border-2 border-black text-white border-blue-500 font-semibold mt-2 mb-6 text-2xl"
-            onClick={editMeetupHandler}
-          >
-            Edit Meetup
-          </button>
-          <button
-            className="shadow-xl text-2xl rounded-2xl transiton-all duration-200 bg-red-500 hover:bg-red-700 w-64 py-2 border-2 border-black text-white border-red-500 font-semibold mt-2 mb-6"
+        <div className="flex flex-col space-y-3 mt-6 justify-center">
+              <Button size="md" className="text-md" type="submit" color="light-blue"       onClick={editMeetupHandler} fullWidth>
+                Submit Edit
+              </Button>
+          <Button
+            size="md"
+            color="red"
+            className="text-md"
             onClick={deleteMeetupHandler}
+            fullWidth
           >
             Delete Meetup
-          </button>
+          </Button>
+         
         </div>
       </div>
     </>
