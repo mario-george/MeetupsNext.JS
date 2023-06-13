@@ -38,7 +38,7 @@ const Textarea = (props) => {
         ref={textareaRef}
         className={`
         outline-none
-        block w-full  text-lg   p-2 leading-5 font-bold resize-none border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 overflow-hidden`}
+        block w-full     p-2 leading-5 resize-none  rounded-md shadow-s overflow-hidden`}
         value={value}
         rows={rows}
         placeholder={placeholder}
