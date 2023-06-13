@@ -21,7 +21,6 @@ function AddMeetup({ props }) {
     descriptionError,
     descriptionRef,submitHandler
   } = props;
-  console.log(props);
   return (
     <Card className="w-3/4 mx-auto">
       <CardHeader
