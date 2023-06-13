@@ -183,7 +183,7 @@ const meetup = (props) => {
       </Head>
       <div className="mx-auto flex flex-col w-1/2 border p-4">
         <img src={meetupData.image} className="w-full h-full object-cover" />
-        <div className="text-base mb-2 flex space-x-4 items-center">
+        <div className="text-base mb-2 flex space-x-4 items-center mt-4">
           <div className="text-xl font-semibold">Title:</div>
           {editState.editTitle ? (
             <>
