@@ -24,7 +24,7 @@ const Meetup = (props) => {
     return (
       <Card
         className=" shadow-lg  mx-auto 
-      w-full xl:w-[55%] md:w-[80%] border-black border my-6"
+      w-full xl:w-[55%] md:w-[80%]  border my-6"
       >
         <CardHeader floated={false} color="blue-gray">
           <img src={image} alt="image" />
