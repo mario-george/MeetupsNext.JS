@@ -1,7 +1,69 @@
 import Link from "next/link";
-
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+  Tooltip,
+  IconButton,
+} from "@material-tailwind/react";
+import {
+  BanknotesIcon,
+  StarIcon,
+  HeartIcon,
+  WifiIcon,
+  HomeIcon,
+  TvIcon,
+  FireIcon,
+  VerifiedIcon,
+} from "@heroicons/react/24/solid";
 const Meetup = (props) => {
-  const { id, title, description, image } = props.m;
+  function CustomCard({ title, address, description, image ,id}) {
+    return (
+      <Card
+        className=" shadow-lg  mx-auto 
+      w-full xl:w-[55%] md:w-[80%]  border my-6"
+      >
+        <CardHeader floated={false} color="blue-gray">
+          <img src={image} alt="image" />
+          <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+        </CardHeader>
+        <CardBody>
+          <div className="mb-3 flex items-center justify-between">
+            <Typography variant="h2" color="blue-gray" className="font-medium">
+              {title}
+            </Typography>
+          </div>
+          <Typography
+            variant="h6"
+            color="blue-gray"
+            className="font-medium flex items-center space-x-3 "
+          >
+            <p className="mr-3 font-bold">Address : </p>
+            <div>{address}</div>
+          </Typography>
+          <Typography variant="paragraph" color="gray" className="mt-5">
+            {description}
+          </Typography>
+        </CardBody>
+        <CardFooter className="pt-3 flex flex-col space-y-3" divider>
+          <Link href={id}>
+            <a>
+              <Button size="lg" className="text-lg" fullWidth>
+                Show Details
+              </Button>
+            </a>
+          </Link>
+          <Button size="lg" color="red" className="text-lg"    onClick={deleteMeetupHandler} fullWidth>
+            Delete Meetup
+          </Button>
+        </CardFooter>
+      </Card>
+    );
+  }
+  const { id, title, description, image, address } = props.m;
   const deleteMeetupHandler = async () => {
     const resp = await fetch("/api/deleteMeetup", {
       method: "DELETE",
@@ -16,39 +78,14 @@ const Meetup = (props) => {
   };
   return (
     <>
-      <div
-        key={id}
-        className="flex  my-10 justify-start items-center border-2 p-8 shadow-xl rounded-2xl border-blue-500 mx-auto 
-        w-full xl:w-[55%] md:w-[80%] p-2"
-      >
-        <div className="flex w-full gap-3 flex-col">
-          <div className="h-[30rem] w-full ">
-            <img
-              src={image}
-              className="w-full h-full rounded-xl "
-              alt="image"
-            />
-          </div>
-          <div className="title">{title}</div>
-          <div className=" text-xl my-3">{description}</div>
-          <div className="flex space-x-5 justify-center">
-            <Link href={id}>
-              <a>
-                <button className="shadow-xl rounded-2xl transition-all duration-200 bg-blue-500 hover:bg-blue-700 w-64 py-2 border-2 border-black text-white border-blue-500 font-semibold mt-2 mb-6 text-2xl">
-                  Show Details
-                </button>
-              </a>
-            </Link>
-
-            <button
-              onClick={deleteMeetupHandler}
-              className="shadow-xl text-2xl rounded-2xl transiton-all duration-200 bg-red-500 hover:bg-red-700 w-64 py-2 border-2 border-black text-white border-red-500 font-semibold mt-2 mb-6"
-            >
-              <span className="text-white">Delete Meetup</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      <CustomCard
+        image={image}
+        description={description}
+        title={title}
+        address={address}
+        id={id}
+      />
+  
     </>
   );
 };
