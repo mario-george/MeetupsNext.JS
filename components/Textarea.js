@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import { Textarea as CustomTextArea } from "@material-tailwind/react";
 const Textarea = (props) => {
   const { placeholder, rows, small, value: propValue, onChange } = props;
   const [value, setValue] = useState(propValue ?? "");
@@ -32,10 +32,11 @@ const Textarea = (props) => {
 
   return (
     <div className="w-full">
-      <textarea
+      <CustomTextArea
+      variant="filled"
+      label="lol"
         ref={textareaRef}
         className={`
-        bg-blue-500 text-white
         outline-none
         block w-full  text-lg   p-2 leading-5 font-bold resize-none border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 overflow-hidden`}
         value={value}
