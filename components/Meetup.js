@@ -41,7 +41,6 @@ const Meetup = (props) => {
             color="blue-gray"
             className="font-medium flex items-center space-x-3 "
           >
-            <p className="mr-3 font-bold">Address : </p>
             <div>{address}</div>
           </Typography>
           <Typography variant="paragraph" color="gray" className="mt-5">
