@@ -3,7 +3,11 @@ import { ObjectId } from "bson";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Input, Textarea as CustomTextArea ,Button} from "@material-tailwind/react";
+import {
+  Input,
+  Textarea as CustomTextArea,
+  Button,
+} from "@material-tailwind/react";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
   const router = useRouter();
@@ -31,6 +35,7 @@ const meetup = (props) => {
     console.log(data);
     console.log(id);
     console.log(typeof _id);
+    router.push('/')
   };
   const editMeetupHandler = async () => {
     const resp = await fetch("/api/editMeetup", {
@@ -46,6 +51,8 @@ const meetup = (props) => {
     });
     const data = await resp.json();
     console.log(data);
+
+    router.push("/");
   };
 
   const [editState, setEditState] = useState({
@@ -80,6 +87,8 @@ const meetup = (props) => {
     }
   };
   const editTitleConfirmHandler = (boolean) => {
+    console.log(meetupData);
+    console.log(cached);
     if (boolean) {
       setMeetupData((p) => {
         return { ...p, title: cached.title };
@@ -106,24 +115,25 @@ const meetup = (props) => {
     description: description,
     address: address,
   });
-  const addressChangeHandler = (value) => {
+  const addressChangeHandler = (event) => {
     setCached((p) => {
-      return { ...p, address: value };
+      return { ...p, address: event.target.value };
     });
   };
-  const descriptionChangeHandler = (value) => {
+  const descriptionChangeHandler = (event) => {
     setCached((p) => {
-      return { ...p, description: value };
+      return { ...p, description: event.target.value };
     });
   };
-  const imageChangeHandler = (value) => {
+  const imageChangeHandler = (event) => {
     setCached((p) => {
-      return { ...p, image: value };
+      return { ...p, image: event.target.value };
     });
   };
-  const titleChangeHandler = (value) => {
+  const titleChangeHandler = (event) => {
+    console.log(event.target.value);
     setCached((p) => {
-      return { ...p, title: value };
+      return { ...p, title: event.target.value };
     });
   };
 
@@ -190,8 +200,7 @@ const meetup = (props) => {
           <div className="text-xl font-semibold">Image:</div>
           {editState.editImage ? (
             <>
-        
-                <CustomTextArea
+              <CustomTextArea
                 rows="2"
                 defaultValue={meetupData.image}
                 onChange={imageChangeHandler}
@@ -242,8 +251,7 @@ const meetup = (props) => {
           <div className="font-bold ">Description:</div>
           {editState.editDescription ? (
             <>
-             
-                <CustomTextArea
+              <CustomTextArea
                 defaultValue={meetupData.description}
                 onChange={descriptionChangeHandler}
                 label="Image"
@@ -343,9 +351,16 @@ const meetup = (props) => {
           )}
         </div>
         <div className="flex flex-col space-y-3 mt-6 justify-center">
-              <Button size="md" className="text-md" type="submit" color="light-blue"       onClick={editMeetupHandler} fullWidth>
-                Submit Edit
-              </Button>
+          <Button
+            size="md"
+            className="text-md"
+            type="submit"
+            color="light-blue"
+            onClick={editMeetupHandler}
+            fullWidth
+          >
+            Submit Edit
+          </Button>
           <Button
             size="md"
             color="red"
@@ -355,7 +370,6 @@ const meetup = (props) => {
           >
             Delete Meetup
           </Button>
-         
         </div>
       </div>
     </>
