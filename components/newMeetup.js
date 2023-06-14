@@ -22,7 +22,7 @@ function AddMeetup({ props }) {
     descriptionRef,submitHandler
   } = props;
   return (
-    <Card className="w-3/4 mx-auto">
+    <Card className="w-full m-2 md:w-3/4 mx-auto">
       <CardHeader
         floated={false}
         shadow={false}

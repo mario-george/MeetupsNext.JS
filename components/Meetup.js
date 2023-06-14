@@ -32,18 +32,18 @@ const Meetup = (props) => {
         </CardHeader>
         <CardBody>
           <div className="mb-3 flex items-center justify-between">
-            <Typography variant="h2" color="blue-gray" className="font-medium">
+            <Typography variant="h2" color="blue-gray" className="font-bold text-lg md:text-xl">
               {title}
             </Typography>
           </div>
           <Typography
             variant="h6"
             color="blue-gray"
-            className="font-medium flex items-center space-x-3 "
+            className="font-medium flex items-center space-x-3 text-lg md:text-xl "
           >
             <div>{address}</div>
           </Typography>
-          <Typography variant="paragraph" color="gray" className="mt-5">
+          <Typography variant="paragraph" color="gray" className="mt-5 text-md md:text-lg">
             {description}
           </Typography>
         </CardBody>

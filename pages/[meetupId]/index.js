@@ -7,6 +7,9 @@ import {
   Input,
   Textarea as CustomTextArea,
   Button,
+  Card,
+  CardHeader,
+  CardBody,
 } from "@material-tailwind/react";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
@@ -143,8 +146,13 @@ const meetup = (props) => {
         <title>{meetupData.title}</title>
         <meta name="description" content={meetupData.description} />
       </Head>
-      <div className="mx-auto flex flex-col w-1/2 border p-4">
-        <img src={meetupData.image} className="w-full h-full object-cover" />
+      <Card  floated={false} className="shadow-xl w-full md:w-1/2 mx-auto ">
+        <CardHeader  color="blue-gray" floated={false} className="">
+        <img src={meetupData.image} className="w-full h-full" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/60 w-full h-full"/>
+        </CardHeader>
+        <CardBody className="mx-auto w-full  flex flex-col space-y-3">
+
         <div className="text-base mb-2 flex space-x-4 items-center mt-4">
           <div className="text-xl font-semibold">Title:</div>
           {editState.editTitle ? (
@@ -371,7 +379,8 @@ const meetup = (props) => {
             Delete Meetup
           </Button>
         </div>
-      </div>
+        </CardBody>
+      </Card>
     </>
   );
 };
