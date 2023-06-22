@@ -519,6 +519,5 @@ export async function getServerSideProps(context) {
         address: meetup.address,
       },
     },
-    revalidate: 1,
   };
 }
