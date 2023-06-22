@@ -6,33 +6,51 @@ import {
   CardFooter,
   Typography,
   Button,
-  Tooltip,
-  IconButton,
 } from "@material-tailwind/react";
-import {
-  BanknotesIcon,
-  StarIcon,
-  HeartIcon,
-  WifiIcon,
-  HomeIcon,
-  TvIcon,
-  FireIcon,
-  VerifiedIcon,
-} from "@heroicons/react/24/solid";
+
+import { faImage } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Meetup = (props) => {
-  function CustomCard({ title, address, description, image ,id}) {
+  function CustomCard({ title, address, description, image, id }) {
+    const [isValidImage, setIsValidImage] = useState(true);
+
+    useEffect(() => {
+      const img = new Image();
+      img.src = image;
+      img.onload = () => {
+        setIsValidImage(true);
+      };
+      img.onerror = () => {
+        setIsValidImage(false);
+      };
+    }, [image]);
+    const handleImageError = (event) => {
+      event.target.style.display = "none";
+    };
     return (
       <Card
         className=" shadow-lg  mx-auto 
       w-full xl:w-[55%] md:w-[80%]  border my-6"
       >
         <CardHeader floated={false} color="blue-gray">
-          <img src={image} alt="image" />
+          <img src={image} alt="image" onError={handleImageError} />
           <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
+          {!isValidImage && (
+            <FontAwesomeIcon
+              icon={faImage}
+              size="10x"
+              className="text-white mx-auto flex justify-center"
+            />
+          )}
         </CardHeader>
         <CardBody>
           <div className="mb-3 flex items-center justify-between">
-            <Typography variant="h2" color="blue-gray" className="font-bold text-lg md:text-xl">
+            <Typography
+              variant="h2"
+              color="blue-gray"
+              className="font-bold text-lg md:text-xl"
+            >
               {title}
             </Typography>
           </div>
@@ -43,7 +61,11 @@ const Meetup = (props) => {
           >
             <div>{address}</div>
           </Typography>
-          <Typography variant="paragraph" color="gray" className="mt-5 text-md md:text-lg">
+          <Typography
+            variant="paragraph"
+            color="gray"
+            className="mt-5 text-md md:text-lg"
+          >
             {description}
           </Typography>
         </CardBody>
@@ -55,9 +77,9 @@ const Meetup = (props) => {
               </Button>
             </a>
           </Link>
-          <Button size="lg" color="red" className="text-lg"    onClick={deleteMeetupHandler} fullWidth>
+          {/* <Button size="lg" color="red" className="text-lg"    onClick={deleteMeetupHandler} fullWidth>
             Delete Meetup
-          </Button>
+          </Button> */}
         </CardFooter>
       </Card>
     );
@@ -84,7 +106,6 @@ const Meetup = (props) => {
         address={address}
         id={id}
       />
-  
     </>
   );
 };
