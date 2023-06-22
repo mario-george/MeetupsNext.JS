@@ -78,7 +78,7 @@ export async function getSaticProps() {
 //     props: { meetups: DUMMY_MEETUPS },
 //   };
 // }
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const client = await MongoClient.connect(
     'mongodb+srv://mario:mario@cluster0.6c8ylwh.mongodb.net/meetups?retryWrites=true&w=majority'
   );

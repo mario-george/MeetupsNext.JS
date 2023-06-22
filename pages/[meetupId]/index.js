@@ -148,13 +148,13 @@ const meetup = (props) => {
       </Head>
       <Card  floated={false} className="shadow-xl w-full md:w-1/2 mx-auto ">
         <CardHeader  color="blue-gray" floated={false} className="">
-        <img src={meetupData.image} className="w-full h-full" />
+        <img src={meetupData.image} className="w-full h-[25rem]" />
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/60 w-full h-full"/>
         </CardHeader>
-        <CardBody className="mx-auto w-full  flex flex-col space-y-3">
+        <CardBody className="mx-auto w-full flex flex-col space-y-3">
 
         <div className="text-base mb-2 flex space-x-4 items-center mt-4">
-          <div className="text-xl font-semibold">Title:</div>
+          <div className="text-xl ">Title:</div>
           {editState.editTitle ? (
             <>
               <Input
@@ -205,7 +205,7 @@ const meetup = (props) => {
           )}
         </div>{" "}
         <div className="text-base mb-2 flex space-x-4 items-center">
-          <div className="text-xl font-semibold">Image:</div>
+          <div className="text-xl ">Image:</div>
           {editState.editImage ? (
             <>
               <CustomTextArea
@@ -256,7 +256,7 @@ const meetup = (props) => {
           )}
         </div>{" "}
         <div className="text-base mb-2 flex space-x-4 items-center">
-          <div className="font-bold ">Description:</div>
+          <div className=" ">Description:</div>
           {editState.editDescription ? (
             <>
               <CustomTextArea
@@ -308,7 +308,7 @@ const meetup = (props) => {
           )}
         </div>{" "}
         <div className="text-base mb-2 flex space-x-4 items-center">
-          <div className="text-xl font-semibold">Address:</div>
+          <div className="text-xl ">Address:</div>
           {editState.editAddress ? (
             <>
               <Input
