@@ -498,7 +498,7 @@ export async function getStaticPaths() {
     // ],
   };
 }
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const client = await MongoClient.connect(
     "mongodb+srv://mario:mario@cluster0.6c8ylwh.mongodb.net/meetups?retryWrites=true&w=majority"
   );
