@@ -55,9 +55,9 @@ const Meetup = (props) => {
               </Button>
             </a>
           </Link>
-          <Button size="lg" color="red" className="text-lg"    onClick={deleteMeetupHandler} fullWidth>
+          {/* <Button size="lg" color="red" className="text-lg"    onClick={deleteMeetupHandler} fullWidth>
             Delete Meetup
-          </Button>
+          </Button> */}
         </CardFooter>
       </Card>
     );
