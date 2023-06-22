@@ -478,7 +478,9 @@ export async function getStaticPaths() {
   // .findOne({first one that satisfy that condition })
   console.log(meetupIds);
   return {
-    fallback: false,
+    fallback: "blocking", // Make the fallback behavior blocking
+
+    // fallback: false,
     // give 404 for other not pre generated pages
     paths: meetupIds.map((m) => {
       return { params: { meetupId: m._id.toString() } };
