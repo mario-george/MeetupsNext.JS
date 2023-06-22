@@ -2,9 +2,9 @@ import { MongoClient } from "mongodb";
 import { ObjectId } from "bson";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 import {
   Input,
@@ -12,7 +12,11 @@ import {
   Button,
   Card,
   CardHeader,
-  CardBody,DialogBody,DialogFooter,DialogHeader,Dialog
+  CardBody,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  Dialog,
 } from "@material-tailwind/react";
 const meetup = (props) => {
   const { title, image, id, description, address } = props.meetup;
@@ -27,10 +31,22 @@ const meetup = (props) => {
   });
   const _id = router.query.meetupId;
   console.log(_id);
-  const handleImageError = (e)=>{
-    e.target.src=  <FontAwesomeIcon icon={faImage} size="5x" className="text-gray-500" />
+  const handleImageError = (event) => {
+    event.target.style.display = 'none'; 
+  };
+  const [isValidImage, setIsValidImage] = useState(true);
 
-  }
+  useEffect(() => {
+    const image = new Image();
+    image.src = meetupData.image;
+    image.onload = () => {
+      setIsValidImage(true);
+    };
+    image.onerror = () => {
+      setIsValidImage(false);
+    };
+  }, [meetupData.image]);
+  
   const deleteMeetupHandler = async () => {
     const resp = await fetch("/api/deleteMeetup", {
       method: "DELETE",
@@ -163,9 +179,14 @@ const meetup = (props) => {
       </Head>
       <Card floated={false} className="shadow-xl w-full md:w-1/2 mx-auto ">
         <CardHeader color="blue-gray" floated={false} className="">
-          <img src={meetupData.image} className="w-full h-[25rem]"    onError={handleImageError} 
- />
+          <img
+            src={meetupData.image}
+            className="w-full h-[25rem]"
+            onError={handleImageError}
+          />
+
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-black/60 w-full h-full" />
+            {!isValidImage && <FontAwesomeIcon icon={faImage} size="10x" className="text-white mx-auto flex justify-center" />} 
         </CardHeader>
         <CardBody className="mx-auto w-full flex flex-col space-y-3">
           <div className="text-base mb-2 flex space-x-4 items-center mt-4">
@@ -374,16 +395,7 @@ const meetup = (props) => {
             )}
           </div>
           <div className="flex flex-col space-y-3 mt-6 justify-center">
-            <Button
-              size="md"
-              className="text-md"
-              type="submit"
-              color="light-blue"
-              onClick={editMeetupHandler}
-              fullWidth
-            >
-              Submit Edit
-            </Button>
+      
             <Button
               size="md"
               className="text-md"
@@ -403,44 +415,46 @@ const meetup = (props) => {
             >
               Delete Meetup
             </Button>
-    
+
             <Dialog open={deleteModal} handler={handleDeleteModal}>
-        <DialogHeader>Delete Meetup</DialogHeader>
-        <DialogBody divider>
-        Are you sure you want to delete this meetup the data of this meetup cann't be restored after deletion.
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleDeleteModal}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button color="green" onClick={deleteMeetupHandler}>
-            <span>Confirm</span>
-          </Button>
-        </DialogFooter>
-      </Dialog>
-          <Dialog open={editModal} handler={handleEditModal}>
-        <DialogHeader>Submit Edit</DialogHeader>
-        <DialogBody divider>
-        Do you want to submit the edit of the meetup.        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleEditModal}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button color="green" onClick={editMeetupHandler}>
-            <span>Confirm</span>
-          </Button>
-        </DialogFooter>
-      </Dialog>
+              <DialogHeader>Delete Meetup</DialogHeader>
+              <DialogBody divider>
+                Are you sure you want to delete this meetup the data of this
+                meetup cann't be restored after deletion.
+              </DialogBody>
+              <DialogFooter>
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={handleDeleteModal}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button color="green" onClick={deleteMeetupHandler}>
+                  <span>Confirm</span>
+                </Button>
+              </DialogFooter>
+            </Dialog>
+            <Dialog open={editModal} handler={handleEditModal}>
+              <DialogHeader>Submit Edit</DialogHeader>
+              <DialogBody divider>
+                Do you want to submit the edit of the meetup.{" "}
+              </DialogBody>
+              <DialogFooter>
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={handleEditModal}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button color="green" onClick={editMeetupHandler}>
+                  <span>Confirm</span>
+                </Button>
+              </DialogFooter>
+            </Dialog>
           </div>
         </CardBody>
       </Card>
