@@ -466,7 +466,7 @@ export default meetup;
 // getStaticPaths specifies the pages that only will be pre generated for that pathotherwise the user will see 404 error
 // fallback if set to false any paths other than specified will give 404 if true it will dynamicaly generate it
 
-export async function getStaticPaths() {
+/* export async function getStaticPaths() {
   const client = await MongoClient.connect(
     "mongodb+srv://mario:mario@cluster0.6c8ylwh.mongodb.net/meetups?retryWrites=true&w=majority"
   );
@@ -499,7 +499,7 @@ export async function getStaticPaths() {
     //   },
     // ],
   };
-}
+} */
 export async function getServerSideProps(context) {
   const client = await MongoClient.connect(
     "mongodb+srv://mario:mario@cluster0.6c8ylwh.mongodb.net/meetups?retryWrites=true&w=majority"
